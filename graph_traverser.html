@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <script src="graph_traverser.js"></script>
+  </head>
+  <style>
+    body {
+      margin: 5em;
+      padding: 0;
+      text-align: center
+    }
+  </style>
+  <body>
+    <br>
+    <div style="width:3em text-align:center">
+      instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions
+    </div>
+    <br>
+    <textarea name="textarea" id="graph_description" rows="10" cols="50">1 test1 | 1
+2 test2 | 2
+3 test3 | 3
+#
+1 2 0.5 10
+1 3 0.5
+2 1 1
+3 1 1</textarea>
+    <br>
+    <input type="button" onclick="stepGraph();" value="go"/>
+    <br><br>
+    <div id="display" style="font-size:3em"></div>
+  </body>
+
+</html>
