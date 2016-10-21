@@ -19,17 +19,38 @@ See what other things had in notes
 */
 
 class Edge {
-  constructor(weight, repetitions) {
-    this.weight = weight;
-    this.repetitions = repetitions;  // infinite if undefined
+  constructor(edge_description) {
+    let edge = edge_description.split(' ');
+    this.weight = Number(trim(edge[2]));
+    if (isNaN(this.weight)) {
+      console.log('Warning: weight', edge[2], 'could not be',
+                  'parsed into a number. Using 0 as default.');
+      this.weight = 0;
+    }
+
+    // undefined repetitions = infinite repetitions
+    if (edge[3]) {
+      this.repetitions = Number(trim(edge[3]));
+    }
   }
 }
 
 class Node {
-  constructor(id, description, duration) {
-    this.id = id;
-    this.description = description;
-    this.duration = duration;  // in seconds
+  constructor(node_description) {
+    this.id = node_description.substr(0, node_description.indexOf(' '));
+
+    var node_attrs =
+        node_description.substr(node_description.indexOf(' ') + 1).split('|');
+    console.assert(node_attrs.length == 2, 'Improper node descriptors?',
+                   node_attrs);
+
+    this.description = trim(node_attrs[0]);
+    this.duration = Number(trim(node_attrs[1]));
+    if (isNaN(this.duration)) {
+      console.log('Warning: duration', node_attrs[1], 'could not be',
+                  'parsed into a number. Using 10 second default.');
+      this.duration = 10;
+    }
 
     // Map from successor node name to Edge object.
     this.successors = {};
@@ -47,14 +68,14 @@ class Node {
     if (this.probability_sum == undefined) {
       this.probability_sum = 0;
       for (var key in this.successors) {
-        this.probability_sum += this.successors[key];
+        this.probability_sum += this.successors[key].weight;
       }
     }
 
     var target_range = Math.random() * this.probability_sum;
     var accumulation = 0;
     for (var key in this.successors) {
-      accumulation += this.successors[key];
+      accumulation += this.successors[key].weight;
       if (accumulation >= target_range) {
         return key;
       }
@@ -64,28 +85,6 @@ class Node {
 
 function trim(s) {
   return (s || '').replace(/^\s+|\s+$/g, '');
-}
-
-function nodeFromDescription(node_description) {
-  // just assume | is the separator?
-  // just make this the ctr of Node!
-
-  var node_id = node_description.substr(0, node_description.indexOf(' '));
-  var node_attrs =
-      node_description.substr(node_description.indexOf(' ') + 1).split('|');
-
-  console.assert(node_attrs.length == 2, 'Improper node descriptors?',
-                 node_attrs);
-
-  var description = trim(node_attrs[0]);
-  var duration = Number(trim(node_attrs[1]));
-  if (isNaN(duration)) {
-    console.log('Warning: duration', node_attrs[1], 'could not be',
-                'parsed into a number. Using 10 second default.');
-    duration = 10;
-  }
-
-  return new Node(node_id, description, duration);
 }
 
 // Extract nodes and edges from trivial graph format description. Returns a map
@@ -102,29 +101,17 @@ function parseTrivialGraphFormat(graph_description) {
       break;
     }
 
-    let node = nodeFromDescription(graph_description[i]);
+    let node = new Node(graph_description[i]);
     graph[node.id] = node;
   }
 
   // Parse edge descriptions.
-  // MOVE THIS INTO EDGE CTR!!
   for (; i < graph_description.length; ++i) {
     let edge = graph_description[i].split(' ');
-    // console.assert(edge.length == 3, 'Malformed edge?:', edge);
+    console.assert(edge.length >= 3, 'Malformed edge?:', edge);
     let from = trim(edge[0]);
     let to = trim(edge[1]);  // is trim ever necessary? what if many spaces?
-    let weight = Number(trim(edge[2]));
-    let repetition;
-    if (edge[3]) {
-      let repetition = Number(trim(edge[3]));
-    }
-    if (isNaN(weight)) {
-      console.log('Warning: weight', edge[2], 'could not be',
-                  'parsed into a number. Using 0 as default.');
-      weight = 0;
-    }
-
-    graph[from].successors[to] = weight;
+    graph[from].successors[to] = new Edge(graph_description[i]);
   }
 
   return graph;
