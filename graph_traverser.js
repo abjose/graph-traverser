@@ -1,17 +1,14 @@
 /* TODO
-- add a "go" button next to the textbox... actually start/stop
-- layout..thinking just textbox, go, then output? or maybe output on top?
-- pretty cool if could trigger transitions after a certain number of traversals
-  to create, for example, a "warmup" phase
 - how to have links to multiple configurations? just...links?
 - add instructions
-- switch 'go' to 'stop' when clicked
+- switch 'start' to 'stop' when clicked
 - should display graph! would be cool, and great for debugging. cool if updates
   as soon as user makes a change... could do with ascii if can't find good lib
   maybe https://www.graphdracula.net/?
 - is it possible to input number in scientific notation? they're strings...
 - 0 probability edges shouldn't be taken! just have exits of warmups
   be low probability
+- if press go multiple times, then starts running multiple times...
 
 Traverser needs text to speech...maybe
 Also in instructions recommend drawing out the graph before inputting it
@@ -28,9 +25,15 @@ class Edge {
       this.weight = 0;
     }
 
-    // undefined repetitions = infinite repetitions
+    // undefined repetitions => infinite repetitions
     if (edge[3]) {
       this.repetitions = Number(trim(edge[3]));
+    }
+  }
+
+  traverse() {
+    if (this.repetitions != undefined) {
+      --this.repetitions;
     }
   }
 }
@@ -77,7 +80,11 @@ class Node {
     for (var key in this.successors) {
       accumulation += this.successors[key].weight;
       if (accumulation >= target_range) {
-        return key;
+        if (this.successors[key].repetitions == undefined ||
+            this.successors[key].repetitions > 0) {
+          this.successors[key].traverse();
+          return key;
+        }
       }
     }
   }
