@@ -1,18 +1,15 @@
-/* TODO
-- how to have links to multiple configurations? just...links?
-- add instructions
-- switch 'start' to 'stop' when clicked
+/*
+TODO
 - should display graph! would be cool, and great for debugging. cool if updates
   as soon as user makes a change... could do with ascii if can't find good lib
   maybe https://www.graphdracula.net/?
-- is it possible to input number in scientific notation? they're strings...
-- 0 probability edges shouldn't be taken! just have exits of warmups
-  be low probability
-- if press go multiple times, then starts running multiple times...
+- add links to multiple configurations
+- switch 'start' to 'stop' when clicked
+- text to speech?
+- See what other things had in notes
 
-Traverser needs text to speech...maybe
-Also in instructions recommend drawing out the graph before inputting it
-See what other things had in notes
+BUGS
+- if press go multiple times, then starts running multiple times
 */
 
 class Edge {
@@ -97,8 +94,13 @@ function trim(s) {
 // Extract nodes and edges from trivial graph format description. Returns a map
 // from string node names to Node object for that node.
 function parseTrivialGraphFormat(graph_description) {
-  var graph_description = graph_description.split('\n');
   var graph = {};
+
+  // Strip comments.
+  graph_description =
+      graph_description.replace(/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/gm, '');
+  // Split by newline.
+  var graph_description = graph_description.split('\n');
 
   // Parse node descriptions.
   for (var i = 0; i < graph_description.length; ++i) {
