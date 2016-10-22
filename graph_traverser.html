@@ -12,19 +12,29 @@
   <body>
     <br>
     <div style="width:3em text-align:center">
-      instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions instructions
+      This is a javascript tool that traverses a graph you input. It takes a graph in (something like)
+      <a href="https://en.wikipedia.org/wiki/Trivial_Graph_Format">trivial graph
+      format</a> and walks all over it. See the textarea below for a tutorial-graph.
     </div>
     <br>
-    <textarea name="textarea" id="graph_description" rows="10" cols="50">1 test1 | 1
-2 test2 | 2
-3 test3 | 3
+    <textarea name="textarea" id="graph_description" rows="10" cols="50">// First, the nodes:
+// node_id node description | duration_in_seconds
+1 first node, 5 second duration | 5
+2 another node with a shorter duration | 1
+// If you want, add a node with node_id 'start',
+// and it will always be the starting node.
+start This will be the starting node | 3
 #
-1 2 0.5 2
-1 3 0.5 2
-2 1 1
-3 1 1</textarea>
+// Now, the edges:
+// from_node_id to_node_id weight repetitions
+start 1 1
+1 2 1
+2 start 0.5 1 // will be taken at most once
+2 1 0.5 // if repetitions unspecified, no limit
+// Edge weights don't need to sum to 1;
+// the code normalizes them for you.</textarea>
     <br>
-    <input type="button" onclick="stepGraph();" value="go"/>
+    <input type="button" onclick="stepGraph();" value="start"/>
     <br><br>
     <div id="display" style="font-size:3em"></div>
   </body>

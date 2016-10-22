@@ -1,9 +1,8 @@
 /*
 TODO
-- should display graph! would be cool, and great for debugging. cool if updates
-  as soon as user makes a change... could do with ascii if can't find good lib
-  maybe https://www.graphdracula.net/?
+- cool if visually displayed the graph. https://www.graphdracula.net/?
 - add links to multiple configurations
+- make the tutorial another linked config instead of being in the html?
 - switch 'start' to 'stop' when clicked
 - text to speech?
 - See what other things had in notes
@@ -96,9 +95,11 @@ function trim(s) {
 function parseTrivialGraphFormat(graph_description) {
   var graph = {};
 
-  // Strip comments.
+  // Strip comments and blank newlines.
   graph_description =
       graph_description.replace(/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/gm, '');
+  graph_description = graph_description.replace(/^\s*[\r\n]/gm, '') ;
+  console.log(graph_description);
   // Split by newline.
   var graph_description = graph_description.split('\n');
 
@@ -135,7 +136,7 @@ function getRandomStartingNode(graph) {
 // somewhere random.
 function getStartingNode(graph) {
   if ('start' in graph) {
-    return graph[start];
+    return graph['start'];
   }
   return getRandomStartingNode(graph);
 }
