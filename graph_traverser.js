@@ -1,15 +1,9 @@
 /*
 TODO
-- add links to multiple configurations
-- switch 'start' to 'stop' when clicked
-- See what other things had in notes
 - should have pictures, great for yoga
 - text to speech?
 - should add beeps or something during transitions
 - cool if visually displayed the graph. https://www.graphdracula.net/?
-
-BUGS
-- if press go multiple times, then starts running multiple times
 */
 
 class Edge {
@@ -99,7 +93,7 @@ function parseTrivialGraphFormat(graph_description) {
   // Strip comments and blank newlines.
   graph_description =
       graph_description.replace(/\/\*[\s\S]*?\*\/|([^:]|^)\/\/.*$/gm, '');
-  graph_description = graph_description.replace(/^\s*[\r\n]/gm, '') ;
+  graph_description = graph_description.replace(/^\s*[\r\n]/gm, '');
   console.log(graph_description);
   // Split by newline.
   var graph_description = graph_description.split('\n');
@@ -154,6 +148,16 @@ function sleep(time) {
 
 // Track node state globally to simplify sleeping.
 var node, graph;
+var running = false;
+
+function startIfNotRunning() {
+  if (running) {
+    console.log('Already running.');
+  } else {
+    running = true;
+    stepGraph();
+  }
+}
 
 function stepGraph() {
   if (!node || !graph) {
@@ -170,16 +174,7 @@ function stepGraph() {
     // If there's a node to show, Display and sleep.
     node.display();
     sleep(node.duration * 1000).then(() => { stepGraph(); });
-  } else {
-    // cancel?
-    // display 'done' or 'end'?
   }
-}
-
-function cancel() {
-  node = undefined;
-  graph = undefined;
-  // ???
 }
 
 function setText(description) {

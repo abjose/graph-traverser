@@ -19,17 +19,18 @@
     <div style="width:3em text-align:center">
       This is a javascript tool that traverses a graph you input in (something like)
       <a href="https://en.wikipedia.org/wiki/Trivial_Graph_Format">trivial graph
-      format</a>.<br>Some examples:
+      format</a>.
+      <br>If you come up with one you like, send it to me and I'll put it here!
+      <br>Some examples:
       <a onclick="setText(tutorial_example);">tutorial</a>,
       <!-- <a onclick="setText(meditation_example);">meditation</a>, -->
       <a onclick="setText(yoga_example);">yoga</a>,
       <a onclick="setText(exercise_example);">bodyweight exercise</a>
-      <br> If you come up with one you like, send it to me and I'll put it here!
     </div>
     <br>
     <textarea name="textarea" id="graph_description" rows="30" cols="60"></textarea>
     <br>
-    <input type="button" onclick="stepGraph();" value="start"/>
+    <input type="button" onclick="startIfNotRunning();" value="start"/>
     <br><br>
     <div id="display" style="font-size:3em"></div>
   </body>
