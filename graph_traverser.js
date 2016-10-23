@@ -1,11 +1,12 @@
 /*
 TODO
-- cool if visually displayed the graph. https://www.graphdracula.net/?
 - add links to multiple configurations
-- make the tutorial another linked config instead of being in the html?
 - switch 'start' to 'stop' when clicked
-- text to speech?
 - See what other things had in notes
+- should have pictures, great for yoga
+- text to speech?
+- should add beeps or something during transitions
+- cool if visually displayed the graph. https://www.graphdracula.net/?
 
 BUGS
 - if press go multiple times, then starts running multiple times
@@ -181,14 +182,99 @@ function cancel() {
   // ???
 }
 
+function setText(description) {
+  document.getElementById('graph_description').value = description;
+}
+window.onload = function() { setText(tutorial_example); }
+
 tutorial_example =
-    '';
+    '// First, the nodes:\n' +
+    '// node_id node description | duration_in_seconds\n' +
+    '1 first node, 5 second duration | 5\n' +
+    '2 another node with a shorter duration | 1\n' +
+    '// Optionally, add a node with node_id "start";\n' +
+    '// it\'ll be the starting node.\n' +
+    'start This will be the starting node | 3\n' +
+    '#\n' +
+    '// Now, the edges:\n' +
+    '// from_node_id to_node_id weight repetitions\n' +
+    'start 1 1\n' +
+    '1 2 1\n' +
+    '2 start 0.5 1 // will be taken at most once\n' +
+    '2 1 0.5 // if repetitions unspecified, no limit\n' +
+    '// Edge weights don\'t need to sum to 1;\n' +
+    '// the code normalizes them for you.';
 
 yoga_example =
-    'something';
+    '// Right now this just guides you through a sun salutation\n' +
+    '// But check out this cool repo:\n' +
+    '// https://github.com/bhpayne/yoga_graph\n\n' +
+    'start Mountain (stand straight) | 10\n' +
+    'extended_mountain Hands overhead, bending back | 10\n' +
+    'standing_bend Bend at the waist | 10\n' +
+    'left_lunge Lunge with left foot forward | 10\n' +
+    'plank Plank | 10\n' +
+    'chaturanga Chaturanga | 10\n' +
+    'up_dog Upward dog | 10\n' +
+    'down_dog Downward dog | 10\n' +
+    'right_lunge Lunge with right foot forward | 10\n\n' +
+    'standing_bend2 Bend at the waist | 10\n' +
+    'extended_mountain2 Hands overhead, bending back | 10\n' +
+    '#\n\n' +
+    '// No branching, just a sun salutation.\n' +
+    'start extended_mountain 1\n' +
+    'extended_mountain standing_bend 1\n' +
+    'standing_bend left_lunge 1\n' +
+    'left_lunge plank 1\n' +
+    'plank chaturanga 1\n' +
+    'chaturanga up_dog 1\n' +
+    'up_dog down_dog 1\n' +
+    'down_dog right_lunge 1\n' +
+    'right_lunge standing_bend2 1\n' +
+    'standing_bend2 extended_mountain2 1\n' +
+    'extended_mountain2 start 1';
 
 meditation_example =
-    'something';
+    'todo';
 
-bodyweigth_exercise_example =
-    'something';
+exercise_example =
+    '// This is a "stochastic tabata" workout, which cycles\n' +
+    '// through various 20-seconds-on, 10-seconds-off movements.\n' +
+    '// It includes a minute-long warmup at the beginning.\n\n' +
+    '// Warmup\n' +
+    '// Ok, I\'m being lazy here...\n' +
+    'start Warm up for a minute! | 60\n\n' +
+    '// Nodes for tabata:\n' +
+    'rest Rest 10 seconds | 10\n' +
+    'mtn_climbers Mountain climbers! | 20\n' +
+    'v_ups V-ups! | 20\n' +
+    'plank Plank! | 20\n' +
+    'push_up Push-ups! | 20\n' +
+    'burpess Burpees! | 20\n' +
+    'air_squats Air squats! | 20\n' +
+    'jump_lunges Jumping lunges! | 20\n' +
+    'superman Superman! | 20\n\n' +
+    '#\n\n' +
+    '// Transition out of warmup.\n' +
+    '// Could use "repetitions" to make a real one-time warmup.\n' +
+    'start rest 1\n\n' +
+    '// Edges for tabata:\n' +
+    '// Transitions from exercise to rest.\n' +
+    'mtn_climbers rest 1\n' +
+    'v_ups rest 1\n' +
+    'plank rest 1 \n' +
+    'push_up rest 1\n' +
+    'burpess rest 1\n' +
+    'air_squats rest 1\n' +
+    'jump_lunges rest 1\n' +
+    'superman rest 1\n' +
+    '// Transitions from rest to exercise.\n' +
+    '// Remember that edges don\'t have to sum to 1...\n' +
+    'rest mtn_climbers 1\n' +
+    'rest v_ups 1\n' +
+    'rest plank 1 \n' +
+    'rest push_up 1\n' +
+    'rest burpess 1\n' +
+    'rest air_squats 1\n' +
+    'rest jump_lunges 1\n' +
+    'rest superman 1';

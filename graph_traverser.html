@@ -8,31 +8,26 @@
       padding: 0;
       text-align: center
     }
+    a {
+      text-decoration: underline;
+      color: blue;
+      cursor: pointer;
+    }
   </style>
   <body>
     <br>
     <div style="width:3em text-align:center">
-      This is a javascript tool that traverses a graph you input. It takes a graph in (something like)
+      This is a javascript tool that traverses a graph you input in (something like)
       <a href="https://en.wikipedia.org/wiki/Trivial_Graph_Format">trivial graph
-      format</a> and walks all over it. See the textarea below for a tutorial-graph.
+      format</a>.<br>Some examples:
+      <a onclick="setText(tutorial_example);">tutorial</a>,
+      <!-- <a onclick="setText(meditation_example);">meditation</a>, -->
+      <a onclick="setText(yoga_example);">yoga</a>,
+      <a onclick="setText(exercise_example);">bodyweight exercise</a>
+      <br> If you come up with one you like, send it to me and I'll put it here!
     </div>
     <br>
-    <textarea name="textarea" id="graph_description" rows="10" cols="50">// First, the nodes:
-// node_id node description | duration_in_seconds
-1 first node, 5 second duration | 5
-2 another node with a shorter duration | 1
-// If you want, add a node with node_id 'start',
-// and it will always be the starting node.
-start This will be the starting node | 3
-#
-// Now, the edges:
-// from_node_id to_node_id weight repetitions
-start 1 1
-1 2 1
-2 start 0.5 1 // will be taken at most once
-2 1 0.5 // if repetitions unspecified, no limit
-// Edge weights don't need to sum to 1;
-// the code normalizes them for you.</textarea>
+    <textarea name="textarea" id="graph_description" rows="30" cols="60"></textarea>
     <br>
     <input type="button" onclick="stepGraph();" value="start"/>
     <br><br>
