@@ -212,9 +212,9 @@ yoga_example =
     'chaturanga Chaturanga | 10\n' +
     'up_dog Upward dog | 10\n' +
     'down_dog Downward dog | 10\n' +
-    'right_lunge Lunge with right foot forward | 10\n\n' +
+    'right_lunge Lunge with right foot forward | 10\n' +
     'standing_bend2 Bend at the waist | 10\n' +
-    'extended_mountain2 Hands overhead, bending back | 10\n' +
+    'extended_mountain2 Hands overhead, bending back | 10\n\n' +
     '#\n\n' +
     '// No branching, just a sun salutation.\n' +
     'start extended_mountain 1\n' +
